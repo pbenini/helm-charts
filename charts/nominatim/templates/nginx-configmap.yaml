@@ -1,8 +1,8 @@
-{{- if not .Values.useFalcon }}
+{{- if .Values.useFalcon }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "nominatim.fullname" . }}-apache-configmap
+  name: {{ include "nominatim.fullname" . }}-nginx-configmap
   namespace: {{ include "common.names.namespace" . | quote }}
   labels: {{- include "common.labels.standard" . | nindent 4 }}
     {{- if .Values.commonLabels }}
@@ -12,6 +12,6 @@ metadata:
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 data:
-  000-default.conf: |-
-    {{- include "common.tplvalues.render" ( dict "value" .Values.nominatimUi.apacheConfiguration "context" $ ) | nindent 4 }}
+  nginx.conf: |-
+    {{- include "common.tplvalues.render" ( dict "value" .Values.nominatimUi.nginxConfiguration "context" $ ) | nindent 4 }}
 {{- end }}
